@@ -16,14 +16,14 @@ using namespace std;
 constexpr float EPS = 1e-7;
 
 //Atributos TiempoExterior,Temperatura,Humedad,Viento,Jugar
-enum Atributos {TiempoExterior, Temperatura, Humedad, Viento, Jugar};
+enum Atributos { TiempoExterior, Temperatura, Humedad, Viento };
 struct tDato {
     int id;
     string TiempoExterior, Temperatura, Humedad;
     bool Viento, Jugar;
 
     void show() {
-        cout << "[" << id << "]" << " Tiempo: " << TiempoExterior << ", Temperatura: " << Temperatura << ", Humedad: " << Humedad << ", Viento: " << (Viento ? "si" : "no") << ", Jugar: " << (Jugar ? "si":"no") << endl;
+        cout << "[" << id << "]" << " Tiempo: " << TiempoExterior << ", Temperatura: " << Temperatura << ", Humedad: " << Humedad << ", Viento: " << (Viento ? "si" : "no") << ", Jugar: " << (Jugar ? "si" : "no") << endl;
     }
 };
 
@@ -64,7 +64,8 @@ double infor(double p, double n) {
     //A p log 2 (p)
     if (p > 0) {
         A = p * log2(p);
-    }else {
+    }
+    else {
         A = 0;
     }
     if (n > 0) {
@@ -76,46 +77,95 @@ double infor(double p, double n) {
     return -A - B;
 }
 
-double merito(const vector<tDato> &Data, Atributos atrib) {
-    switch (atrib){
+double merito(const vector<tDato>& Data, Atributos atrib) {
+    switch (atrib) {
     case TiempoExterior: {
-        int N, a1,a2,a3, pos, neg;
+        int N = 0, a1 = 0, a2 = 0, a3 = 0, pos = 0, neg = 0;
         for (tDato data : Data) {
-            if (data.Jugar){ 
+            if (data.Jugar) {
                 pos++;
-            }else {
+            }
+            else {
                 neg++;
             }
             if (data.TiempoExterior == "soleado") {
                 a1++;
-            }else if (data.TiempoExterior == "lluvioso") {
+            }
+            else if (data.TiempoExterior == "lluvioso") {
                 a2++;
             }
-            else {
+            else if (data.TiempoExterior == "nublado") {
                 a3++;
             }
             N++;
         }
-        
-        return (a1 / N * infor(pos/a1, neg/a1) + a2 / N * infor(pos/a2, neg/a2) + a3 / N * infor(pos/a3, neg/a3));
-
-
+        return (a1 / N * infor(pos / a1, neg / a1) + a2 / N * infor(pos / a2, neg / a2) + a3 / N * infor(pos / a3, neg / a3));
         break;
     }
     case Temperatura: {
-
+        int N = 0, a1 = 0, a2 = 0, a3 = 0, pos = 0, neg = 0;
+        for (tDato data : Data) {
+            if (data.Jugar) {
+                pos++;
+            }
+            else {
+                neg++;
+            }
+            if (data.Temperatura == "caluroso") {
+                a1++;
+            }
+            else if (data.Temperatura == "templado") {
+                a2++;
+            }
+            else if (data.Temperatura == "frio") {
+                a3++;
+            }
+            N++;
+        }
+        return (a1 / N * infor(pos / a1, neg / a1) + a2 / N * infor(pos / a2, neg / a2) + a3 / N * infor(pos / a3, neg / a3));
         break;
     }
     case Humedad: {
-
+        int N = 0, a1 = 0, a2 = 0, a3 = 0, pos = 0, neg = 0;
+        for (tDato data : Data) {
+            if (data.Jugar) {
+                pos++;
+            }
+            else {
+                neg++;
+            }
+            if (data.Humedad == "alta") {
+                a1++;
+            }
+            else if (data.Humedad == "normal") {
+                a2++;
+            }
+            else if (data.Humedad == "baja") { // TO-DO preguntar si existe baja
+                a3++;
+            }
+            N++;
+        }
+        return (a1 / N * infor(pos / a1, neg / a1) + a2 / N * infor(pos / a2, neg / a2) + a3 / N * infor(pos / a3, neg / a3));
         break;
     }
     case Viento: {
-
-        break;
-    }
-    case Jugar: {
-
+        int N = 0, a1 = 0, a2 = 0, a3 = 0, pos = 0, neg = 0;
+        for (tDato data : Data) {
+            if (data.Jugar) {
+                pos++;
+            }
+            else {
+                neg++;
+            }
+            if (data.Viento) {
+                a1++;
+            }
+            else {
+                a2++;
+            }
+            N++;
+        }
+        return (a1 / N * infor(pos / a1, neg / a1) + a2 / N * infor(pos / a2, neg / a2));
         break;
     }
     default:
@@ -127,18 +177,14 @@ double merito(const vector<tDato> &Data, Atributos atrib) {
  */
 int main(int argc, char** argv)
 {
-
     vector<tDato> Data;
     lectura(Data);
-    
 
     //// Train the ID3.
     //auto id3 = ID3Train<N>(std::move(samples)).train();
 
     //// Print the ID3 tree.
     //id3->print(std::cout);
-
-
 
     return 0;
 }
