@@ -8,15 +8,15 @@
 #include <sstream>
 #include <unordered_map>
 #include <vector>
-
+#include <math.h>  
 #define NOMBRE_ARCHIVO "Juego.csv"
 using namespace std;
 
 /// Floating point error.
 constexpr float EPS = 1e-7;
 
-
-
+//Atributos TiempoExterior,Temperatura,Humedad,Viento,Jugar
+enum Atributos {TiempoExterior, Temperatura, Humedad, Viento, Jugar};
 struct tDato {
     int id;
     string TiempoExterior, Temperatura, Humedad;
@@ -59,6 +59,69 @@ bool lectura(vector<tDato>& Data) {
     return true;
 }
 
+double infor(double p, double n) {
+    double A, B;
+    //A p log 2 (p)
+    if (p > 0) {
+        A = p * log2(p);
+    }else {
+        A = 0;
+    }
+    if (n > 0) {
+        B = n * log2(n);
+    }
+    else {
+        B = 0;
+    }
+    return -A - B;
+}
+
+double merito(const vector<tDato> &Data, Atributos atrib) {
+    switch (atrib){
+    case TiempoExterior: {
+        int N, a1,a2,a3, pos, neg;
+        for (tDato data : Data) {
+            if (data.Jugar){ 
+                pos++;
+            }else {
+                neg++;
+            }
+            if (data.TiempoExterior == "soleado") {
+                a1++;
+            }else if (data.TiempoExterior == "lluvioso") {
+                a2++;
+            }
+            else {
+                a3++;
+            }
+            N++;
+        }
+        
+        return (a1 / N * infor(pos/a1, neg/a1) + a2 / N * infor(pos/a2, neg/a2) + a3 / N * infor(pos/a3, neg/a3));
+
+
+        break;
+    }
+    case Temperatura: {
+
+        break;
+    }
+    case Humedad: {
+
+        break;
+    }
+    case Viento: {
+
+        break;
+    }
+    case Jugar: {
+
+        break;
+    }
+    default:
+        return 0;
+    }
+}
 /**
  * Entry point of the application.
  */
@@ -67,22 +130,7 @@ int main(int argc, char** argv)
 
     vector<tDato> Data;
     lectura(Data);
-    //// Read the samples.
-    //{
-    //    std::ifstream is(argc >= 2 ? argv[1] : "data");
-    //    while (!is.eof()) {
-    //        Sample<N> sample;
-    //        for (auto i = 0; i < N; ++i) {
-    //            if (!(is >> sample.attributes[i])) {
-    //                break;
-    //            }
-    //        }
-    //        if (!(is >> sample.clazz)) {
-    //            break;
-    //        }
-    //        samples.push_back(std::move(sample));
-    //    }
-    //}
+    
 
     //// Train the ID3.
     //auto id3 = ID3Train<N>(std::move(samples)).train();
@@ -90,24 +138,7 @@ int main(int argc, char** argv)
     //// Print the ID3 tree.
     //id3->print(std::cout);
 
-    //// Classify some samples from stdin.
-    //{
-    //    std::string line;
-    //    while (line.resize(512), cin.getline(&line[0], line.size())) {
-    //        line.resize(line.find_first_of('\0'));
-    //        if (line.size() == 0) {
-    //            break;
-    //        }
-    //        std::stringstream is(line);
-    //        std::array<std::string, N> sample;
-    //        for (auto i = 0; i < N; ++i) {
-    //            if (!(is >> sample[i])) {
-    //                return EXIT_SUCCESS;
-    //            }
-    //        }
-    //        std::cout << id3->classify(sample) << std::endl;
-    //    }
-    //}
+
 
     return 0;
 }
