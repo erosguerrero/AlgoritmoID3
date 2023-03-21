@@ -18,11 +18,12 @@ constexpr float EPS = 1e-7;
 
 
 struct tDato {
-    string id, TiempoExterior, Temperatura, Humedad;
+    int id;
+    string TiempoExterior, Temperatura, Humedad;
     bool Viento, Jugar;
 
     void show() {
-        cout << "[" << id << "]" << "Tiempo: " << TiempoExterior << "Temperatura: " << Temperatura << "Humedad: " << Humedad << "Viento: " << (Viento ? "si" : "no") << "Jugar: " << (Jugar ? "si":"no") << endl;
+        cout << "[" << id << "]" << " Tiempo: " << TiempoExterior << ", Temperatura: " << Temperatura << ", Humedad: " << Humedad << ", Viento: " << (Viento ? "si" : "no") << ", Jugar: " << (Jugar ? "si":"no") << endl;
     }
 };
 
@@ -31,28 +32,29 @@ bool lectura(vector<tDato>& Data) {
     ifstream archivo(NOMBRE_ARCHIVO);
     string linea;
     char delimitador = ',';
-    // Leemos todas las líneas
+    // Leemos todas las lÃ­neas
     int pos = 0;
     while (getline(archivo, linea))
     {
-        stringstream stream(linea); // Convertir la cadena a un stream
-        tDato d; d.id = pos;
+        if (!linea.length() == 0) {
+            stringstream stream(linea); // Convertir la cadena a un stream
+            tDato d; d.id = pos;
 
-        // Extraer todos los valores de esa fila
-        getline(stream, d.TiempoExterior, delimitador);
-        getline(stream, d.Temperatura, delimitador);
-        getline(stream, d.Humedad, delimitador);
-        string Viento, Jugar;
-        getline(stream, Viento, delimitador);
-        getline(stream, Jugar, delimitador);
-        d.Viento = Viento == "verdad";
-        d.Jugar = Jugar == "si";
-        // Imprimir
-        d.show();
-        Data.push_back(d);
-        pos++;
+            // Extraer todos los valores de esa fila
+            getline(stream, d.TiempoExterior, delimitador);
+            getline(stream, d.Temperatura, delimitador);
+            getline(stream, d.Humedad, delimitador);
+            string Viento, Jugar;
+            getline(stream, Viento, delimitador);
+            getline(stream, Jugar, delimitador);
+            d.Viento = Viento == "verdad";
+            d.Jugar = Jugar == "si";
+            // Imprimir
+            d.show();
+            Data.push_back(d);
+            pos++;
+        }
     }
-
     archivo.close();
     return true;
 }
