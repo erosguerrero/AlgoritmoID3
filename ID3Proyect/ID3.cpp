@@ -8,6 +8,7 @@
 #include <sstream>
 #include <unordered_map>
 #include <vector>
+
 #define NOMBRE_ARCHIVO "Juego.csv"
 using namespace std;
 
@@ -24,6 +25,7 @@ struct tDato {
         cout << "[" << id << "]" << "Tiempo: " << TiempoExterior << "Temperatura: " << Temperatura << "Humedad: " << Humedad << "Viento: " << (Viento ? "si" : "no") << "Jugar: " << (Jugar ? "si":"no") << endl;
     }
 };
+
 bool lectura(vector<tDato>& Data) {
     //LECTURA
     ifstream archivo(NOMBRE_ARCHIVO);
@@ -61,48 +63,49 @@ bool lectura(vector<tDato>& Data) {
 int main(int argc, char** argv)
 {
 
+    vector<tDato> Data;
+    lectura(Data);
+    //// Read the samples.
+    //{
+    //    std::ifstream is(argc >= 2 ? argv[1] : "data");
+    //    while (!is.eof()) {
+    //        Sample<N> sample;
+    //        for (auto i = 0; i < N; ++i) {
+    //            if (!(is >> sample.attributes[i])) {
+    //                break;
+    //            }
+    //        }
+    //        if (!(is >> sample.clazz)) {
+    //            break;
+    //        }
+    //        samples.push_back(std::move(sample));
+    //    }
+    //}
 
-    // Read the samples.
-    {
-        std::ifstream is(argc >= 2 ? argv[1] : "data");
-        while (!is.eof()) {
-            Sample<N> sample;
-            for (auto i = 0; i < N; ++i) {
-                if (!(is >> sample.attributes[i])) {
-                    break;
-                }
-            }
-            if (!(is >> sample.clazz)) {
-                break;
-            }
-            samples.push_back(std::move(sample));
-        }
-    }
+    //// Train the ID3.
+    //auto id3 = ID3Train<N>(std::move(samples)).train();
 
-    // Train the ID3.
-    auto id3 = ID3Train<N>(std::move(samples)).train();
+    //// Print the ID3 tree.
+    //id3->print(std::cout);
 
-    // Print the ID3 tree.
-    id3->print(std::cout);
-
-    // Classify some samples from stdin.
-    {
-        std::string line;
-        while (line.resize(512), cin.getline(&line[0], line.size())) {
-            line.resize(line.find_first_of('\0'));
-            if (line.size() == 0) {
-                break;
-            }
-            std::stringstream is(line);
-            std::array<std::string, N> sample;
-            for (auto i = 0; i < N; ++i) {
-                if (!(is >> sample[i])) {
-                    return EXIT_SUCCESS;
-                }
-            }
-            std::cout << id3->classify(sample) << std::endl;
-        }
-    }
+    //// Classify some samples from stdin.
+    //{
+    //    std::string line;
+    //    while (line.resize(512), cin.getline(&line[0], line.size())) {
+    //        line.resize(line.find_first_of('\0'));
+    //        if (line.size() == 0) {
+    //            break;
+    //        }
+    //        std::stringstream is(line);
+    //        std::array<std::string, N> sample;
+    //        for (auto i = 0; i < N; ++i) {
+    //            if (!(is >> sample[i])) {
+    //                return EXIT_SUCCESS;
+    //            }
+    //        }
+    //        std::cout << id3->classify(sample) << std::endl;
+    //    }
+    //}
 
     return 0;
 }
