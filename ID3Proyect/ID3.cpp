@@ -62,20 +62,16 @@ bool lectura(vector<tDato>& Data) {
 }
 
 double infor(double p, double n) {
-    double A, B;
+    double A=0, B=0;
     //A p log 2 (p)
     if (p > 0) {
         A = p * log2(p);
     }
-    else {
-        A = 0;
-    }
+
     if (n > 0) {
         B = n * log2(n);
     }
-    else {
-        B = 0;
-    }
+
     return -A - B;
 }
 
@@ -138,7 +134,11 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
             }
             N++;
         }
-        return (a1 / N * infor(pos / a1, neg / a1) + a2 / N * infor(pos / a2, neg / a2) + a3 / N * infor(pos / a3, neg / a3));
+        double A, B, C;
+        A = a1 != 0 ? a1 / N * infor(pos / a1, neg / a1) : 0;
+        B = a2 != 0 ? a2 / N * infor(pos / a2, neg / a2) : 0;
+        C = a3 != 0 ? a3 / N * infor(pos / a3, neg / a3) : 0;
+        return A + B + C;
         break;
     }
     case Viento: {
@@ -156,7 +156,10 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
             }
             N++;
         }
-        return (a1 / N * infor(pos / a1, neg / a1) + a2 / N * infor(pos / a2, neg / a2));
+        double A, B;
+        A = a1 != 0 ? a1 / N * infor(pos / a1, neg / a1) : 0;
+        B = a2 != 0 ? a2 / N * infor(pos / a2, neg / a2) : 0;
+        return A + B;
         break;
     }
     default:
