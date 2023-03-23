@@ -1,0 +1,3 @@
+﻿  ID3.cpp
+D:\Documentos\GitHub\AlgoritmoID3\ID3Proyect\ID3.cpp(17,27): warning C4305: 'inicializando': truncamiento de 'double' a 'const float'
+  ID3Proyect.vcxproj -> D:\Documentos\GitHub\AlgoritmoID3\ID3Proyect\x64\Debug\ID3Proyect.exe

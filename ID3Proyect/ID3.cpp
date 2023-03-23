@@ -9,6 +9,7 @@
 #include <unordered_map>
 #include <vector>
 #include <math.h>  
+#include <queue>
 #define NOMBRE_ARCHIVO "Juego.csv"
 using namespace std;
 
@@ -17,6 +18,7 @@ constexpr float EPS = 1e-7;
 
 //Atributos TiempoExterior,Temperatura,Humedad,Viento,Jugar
 enum Atributos { TiempoExterior, Temperatura, Humedad, Viento };
+const int NUMAtribs = 4;
 struct tDato {
     int id;
     string TiempoExterior, Temperatura, Humedad;
@@ -84,17 +86,14 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
         for (tDato data : Data) {
             if (data.Jugar) {
                 pos++;
-            }
-            else {
+            } else {
                 neg++;
             }
             if (data.TiempoExterior == "soleado") {
                 a1++;
-            }
-            else if (data.TiempoExterior == "lluvioso") {
+            }else if (data.TiempoExterior == "lluvioso") {
                 a2++;
-            }
-            else if (data.TiempoExterior == "nublado") {
+            }else if (data.TiempoExterior == "nublado") {
                 a3++;
             }
             N++;
@@ -107,17 +106,14 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
         for (tDato data : Data) {
             if (data.Jugar) {
                 pos++;
-            }
-            else {
+            }else {
                 neg++;
             }
             if (data.Temperatura == "caluroso") {
                 a1++;
-            }
-            else if (data.Temperatura == "templado") {
+            }else if (data.Temperatura == "templado") {
                 a2++;
-            }
-            else if (data.Temperatura == "frio") {
+            } else if (data.Temperatura == "frio") {
                 a3++;
             }
             N++;
@@ -130,17 +126,14 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
         for (tDato data : Data) {
             if (data.Jugar) {
                 pos++;
-            }
-            else {
+            }else {
                 neg++;
             }
             if (data.Humedad == "alta") {
                 a1++;
-            }
-            else if (data.Humedad == "normal") {
+            } else if (data.Humedad == "normal") {
                 a2++;
-            }
-            else if (data.Humedad == "baja") { // TO-DO preguntar si existe baja
+            }else if (data.Humedad == "baja") { // TO-DO preguntar si existe baja
                 a3++;
             }
             N++;
@@ -153,14 +146,12 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
         for (tDato data : Data) {
             if (data.Jugar) {
                 pos++;
-            }
-            else {
+            }else {
                 neg++;
             }
             if (data.Viento) {
                 a1++;
-            }
-            else {
+            }else {
                 a2++;
             }
             N++;
@@ -172,14 +163,20 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
         return 0;
     }
 }
-/**
- * Entry point of the application.
- */
+
 int main(int argc, char** argv)
 {
     vector<tDato> Data;
     lectura(Data);
 
+    vector<double> meritos(NUMAtribs); //TiempoExterior, Temperatura, Humedad, Viento
+
+    meritos[0] = merito(Data, TiempoExterior);
+    meritos[1] = merito(Data, Temperatura);
+    meritos[2] = merito(Data, Humedad);
+    meritos[3] = merito(Data, Viento);
+
+    cout << "MERITOS:: " << meritos[0] << " " << meritos[1] << " " << meritos[2] << " " << meritos[3] << endl;
     //// Train the ID3.
     //auto id3 = ID3Train<N>(std::move(samples)).train();
 
