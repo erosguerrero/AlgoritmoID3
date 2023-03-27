@@ -78,87 +78,84 @@ double infor(double p, double n) {
 double merito(const vector<tDato>& Data, Atributos atrib) {
     switch (atrib) {
     case TiempoExterior: {
-        int N = 0, a1 = 0, a2 = 0, a3 = 0, pos = 0, neg = 0;
+        double N = 0, a1 = 0, a2 = 0, a3 = 0;
+        double p1 = 0, p2 = 0, p3 = 0, n1 = 0, n2 = 0, n3 = 0;
         for (tDato data : Data) {
-            if (data.Jugar) {
-                pos++;
-            } else {
-                neg++;
-            }
             if (data.TiempoExterior == "soleado") {
                 a1++;
+                data.Jugar ? p1++ : n1++;
             }else if (data.TiempoExterior == "lluvioso") {
                 a2++;
+                data.Jugar ? p2++ : n2++;
             }else if (data.TiempoExterior == "nublado") {
                 a3++;
+                data.Jugar ? p3++ : n3++;
             }
             N++;
         }
-        return (a1 / N * infor(pos / a1, neg / a1) + a2 / N * infor(pos / a2, neg / a2) + a3 / N * infor(pos / a3, neg / a3));
+        return (a1 / N * infor(p1 / a1, n2 / a1) + a2 / N * infor(p1 / a2, n2 / a2) + a3 / N * infor(p3 / a3, n3 / a3));
         break;
     }
     case Temperatura: {
-        int N = 0, a1 = 0, a2 = 0, a3 = 0, pos = 0, neg = 0;
+        double N = 0, a1 = 0, a2 = 0, a3 = 0;
+        double p1 = 0, p2 = 0, p3 = 0, n1 = 0, n2 = 0, n3 = 0;
         for (tDato data : Data) {
-            if (data.Jugar) {
-                pos++;
-            }else {
-                neg++;
-            }
             if (data.Temperatura == "caluroso") {
                 a1++;
+                data.Jugar ? p1++ : n1++;
             }else if (data.Temperatura == "templado") {
                 a2++;
+                data.Jugar ? p2++ : n2++;
             } else if (data.Temperatura == "frio") {
                 a3++;
+                data.Jugar ? p3++ : n3++;
             }
             N++;
         }
-        return (a1 / N * infor(pos / a1, neg / a1) + a2 / N * infor(pos / a2, neg / a2) + a3 / N * infor(pos / a3, neg / a3));
+        return (a1 / N * infor(p1 / a1, n1 / a1) + a2 / N * infor(p2 / a2, n2 / a2) + a3 / N * infor(p1 / a3, n2 / a3));
         break;
     }
     case Humedad: {
-        int N = 0, a1 = 0, a2 = 0, a3 = 0, pos = 0, neg = 0;
+        double N = 0, a1 = 0, a2 = 0, a3 = 0;
+        double p1 = 0, p2 = 0, p3 = 0, n1 = 0, n2 = 0, n3 = 0;
         for (tDato data : Data) {
-            if (data.Jugar) {
-                pos++;
-            }else {
-                neg++;
-            }
             if (data.Humedad == "alta") {
                 a1++;
+                data.Jugar ? p1++ : n1++;
             } else if (data.Humedad == "normal") {
                 a2++;
+                data.Jugar ? p2++ : n2++;
             }else if (data.Humedad == "baja") { // TO-DO preguntar si existe baja
                 a3++;
+                data.Jugar ? p3++ : n3++;
             }
             N++;
         }
         double A, B, C;
-        A = a1 != 0 ? a1 / N * infor(pos / a1, neg / a1) : 0;
-        B = a2 != 0 ? a2 / N * infor(pos / a2, neg / a2) : 0;
-        C = a3 != 0 ? a3 / N * infor(pos / a3, neg / a3) : 0;
+        double X = p1 / a1;
+
+        A = (a1 != 0)? a1 / N * infor(p1 / a1, n1 / a1) : 0;
+        B = (a2 != 0) ? a2 / N * infor(p2 / a2, n2 / a2) : 0;
+        C = (a3 != 0) ? a3 / N * infor(p3 / a3, n3 / a3) : 0;
         return A + B + C;
         break;
     }
     case Viento: {
-        int N = 0, a1 = 0, a2 = 0, a3 = 0, pos = 0, neg = 0;
+        double N = 0, a1 = 0, a2 = 0;
+        double p1 = 0, p2 = 0, n1 = 0, n2 = 0;
         for (tDato data : Data) {
-            if (data.Jugar) {
-                pos++;
-            }else {
-                neg++;
-            }
             if (data.Viento) {
                 a1++;
+                data.Jugar ? p1++ : n1++;
             }else {
                 a2++;
+                data.Jugar ? p2++ : n2++;
             }
             N++;
         }
         double A, B;
-        A = a1 != 0 ? a1 / N * infor(pos / a1, neg / a1) : 0;
-        B = a2 != 0 ? a2 / N * infor(pos / a2, neg / a2) : 0;
+        A = a1 != 0 ? a1 / N * infor(p1 / a1, n1 / a1) : 0;
+        B = a2 != 0 ? a2 / N * infor(p2 / a2, n2 / a2) : 0;
         return A + B;
         break;
     }
