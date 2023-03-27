@@ -64,11 +64,11 @@ bool lectura(vector<tDato>& Data) {
 double infor(double p, double n) {
     double A=0, B=0;
     //A p log 2 (p)
-    if (p > 1) {
+    if (p > 0) {
         A = p * log2(p);
     }
 
-    if (n > 1) {
+    if (n > 0) {
         B = n * log2(n);
     }
 
