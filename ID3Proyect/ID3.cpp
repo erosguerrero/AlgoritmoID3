@@ -134,8 +134,8 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
         break;
     }
     case Humedad: {
-        double N = 0, a1 = 0, a2 = 0, a3 = 0;
-        double p1 = 0, p2 = 0, p3 = 0, n1 = 0, n2 = 0, n3 = 0;
+        double N = 0, a1 = 0, a2 = 0;
+        double p1 = 0, p2 = 0, n1 = 0, n2 = 0, n3 = 0;
         for (tDato data : Data) {
             if (data.Humedad == "alta") {
                 a1++;
@@ -143,9 +143,6 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
             } else if (data.Humedad == "normal") {
                 a2++;
                 data.Jugar ? p2++ : n2++;
-            }else if (data.Humedad == "baja") { // TO-DO preguntar si existe baja
-                a3++;
-                data.Jugar ? p3++ : n3++;
             }
             N++;
         }
@@ -153,7 +150,6 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
 
         A = (a1 != 0) ? a1 / N * infor(p1 / a1, n1 / a1) : 0;
         B = (a2 != 0) ? a2 / N * infor(p2 / a2, n2 / a2) : 0;
-        C = (a3 != 0) ? a3 / N * infor(p3 / a3, n3 / a3) : 0;
         return A + B + C;
         break;
     }
@@ -193,22 +189,32 @@ int main(int argc, char** argv)
 {
     vector<tDato> Data;
     lectura(Data);
+    vector<Atributos> descartados(4);
+    vector<pair<Atributos, int>> normas;
 
-    priority_queue<merit, vector<merit>, greater<merit>> meritos; //TiempoExterior, Temperatura, Humedad, Viento
+    for (int i = 0; i < 4; i++){
+        priority_queue<merit, vector<merit>, greater<merit>> meritos; //TiempoExterior, Temperatura, Humedad, Viento
 
-    meritos.push({ TiempoExterior, merito(Data, TiempoExterior) });
-    meritos.push({ Temperatura, merito(Data, Temperatura) });
-    meritos.push({ Humedad, merito(Data, Humedad) });
-    meritos.push({ Viento, merito(Data, Viento) });
+        meritos.push({ TiempoExterior, merito(Data, TiempoExterior) });
+        meritos.push({ Temperatura, merito(Data, Temperatura) });
+        meritos.push({ Humedad, merito(Data, Humedad) });
+        meritos.push({ Viento, merito(Data, Viento) });
+        cout << "[" << i << "]";mostrarMeritos(meritos); cout << endl;
+        Atributos a = meritos.top().atributo;
+        normas.push_back({ a, 0 });
+        normas.push_back({ a, 1 });
+        if (a != Viento) {
+            //2 opciones
+            normas.push_back({ a, 2 });
+        }
+        for (int j = 0; j < normas.size(); j++)
+        {
 
-    cout << endl;
-    mostrarMeritos(meritos);
-    cout << endl;
-    //// Train the ID3.
-    //auto id3 = ID3Train<N>(std::move(samples)).train();
+        }
 
-    //// Print the ID3 tree.
-    //id3->print(std::cout);
+    }
+    
+  
 
     return 0;
 }
