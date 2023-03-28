@@ -93,7 +93,12 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
             }
             N++;
         }
-        return (a1 / N * infor(p1 / a1, n2 / a1) + a2 / N * infor(p1 / a2, n2 / a2) + a3 / N * infor(p3 / a3, n3 / a3));
+        double A, B, C;
+
+        A = (a1 != 0) ? a1 / N * infor(p1 / a1, n1 / a1) : 0;
+        B = (a2 != 0) ? a2 / N * infor(p2 / a2, n2 / a2) : 0;
+        C = (a3 != 0) ? a3 / N * infor(p3 / a3, n3 / a3) : 0;
+        return A + B + C;
         break;
     }
     case Temperatura: {
@@ -112,7 +117,12 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
             }
             N++;
         }
-        return (a1 / N * infor(p1 / a1, n1 / a1) + a2 / N * infor(p2 / a2, n2 / a2) + a3 / N * infor(p1 / a3, n2 / a3));
+        double A, B, C;
+
+        A = (a1 != 0) ? a1 / N * infor(p1 / a1, n1 / a1) : 0;
+        B = (a2 != 0) ? a2 / N * infor(p2 / a2, n2 / a2) : 0;
+        C = (a3 != 0) ? a3 / N * infor(p3 / a3, n3 / a3) : 0;
+        return A + B + C;
         break;
     }
     case Humedad: {
@@ -132,9 +142,8 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
             N++;
         }
         double A, B, C;
-        double X = p1 / a1;
 
-        A = (a1 != 0)? a1 / N * infor(p1 / a1, n1 / a1) : 0;
+        A = (a1 != 0) ? a1 / N * infor(p1 / a1, n1 / a1) : 0;
         B = (a2 != 0) ? a2 / N * infor(p2 / a2, n2 / a2) : 0;
         C = (a3 != 0) ? a3 / N * infor(p3 / a3, n3 / a3) : 0;
         return A + B + C;
