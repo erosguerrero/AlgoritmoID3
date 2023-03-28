@@ -29,6 +29,14 @@ struct tDato {
     }
 };
 
+struct merit {
+    Atributos atributo;
+    double valor;
+    bool operator>(merit a) const {
+        return a.valor < valor;
+    }
+};
+
 bool lectura(vector<tDato>& Data) {
     //LECTURA
     ifstream archivo(NOMBRE_ARCHIVO);
@@ -173,10 +181,10 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
     }
 }
 
-void mostrarMeritos(priority_queue<double, vector<double>, greater<double>> pq) {
+void mostrarMeritos(priority_queue<merit, vector<merit>, greater<merit>> pq) {
     cout << "MERITOS: ";
     while (!pq.empty()) {
-        cout << pq.top() << " ";
+        cout << pq.top().valor << " ";
         pq.pop();
     }
 }
@@ -186,12 +194,12 @@ int main(int argc, char** argv)
     vector<tDato> Data;
     lectura(Data);
 
-    priority_queue<double, vector<double>, greater<double>> meritos; //TiempoExterior, Temperatura, Humedad, Viento
+    priority_queue<merit, vector<merit>, greater<merit>> meritos; //TiempoExterior, Temperatura, Humedad, Viento
 
-    meritos.push(merito(Data, TiempoExterior));
-    meritos.push(merito(Data, Temperatura));
-    meritos.push(merito(Data, Humedad));
-    meritos.push(merito(Data, Viento));
+    meritos.push({ TiempoExterior, merito(Data, TiempoExterior) });
+    meritos.push({ Temperatura, merito(Data, Temperatura) });
+    meritos.push({ Humedad, merito(Data, Humedad) });
+    meritos.push({ Viento, merito(Data, Viento) });
 
     cout << endl;
     mostrarMeritos(meritos);
