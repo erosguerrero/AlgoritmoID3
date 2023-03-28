@@ -173,19 +173,29 @@ double merito(const vector<tDato>& Data, Atributos atrib) {
     }
 }
 
+void mostrarMeritos(priority_queue<double, vector<double>, greater<double>> pq) {
+    cout << "MERITOS: ";
+    while (!pq.empty()) {
+        cout << pq.top() << " ";
+        pq.pop();
+    }
+}
+
 int main(int argc, char** argv)
 {
     vector<tDato> Data;
     lectura(Data);
 
-    vector<double> meritos(NUMAtribs); //TiempoExterior, Temperatura, Humedad, Viento
+    priority_queue<double, vector<double>, greater<double>> meritos; //TiempoExterior, Temperatura, Humedad, Viento
 
-    meritos[0] = merito(Data, TiempoExterior);
-    meritos[1] = merito(Data, Temperatura);
-    meritos[2] = merito(Data, Humedad);
-    meritos[3] = merito(Data, Viento);
+    meritos.push(merito(Data, TiempoExterior));
+    meritos.push(merito(Data, Temperatura));
+    meritos.push(merito(Data, Humedad));
+    meritos.push(merito(Data, Viento));
 
-    cout << "MERITOS:: " << meritos[0] << " " << meritos[1] << " " << meritos[2] << " " << meritos[3] << endl;
+    cout << endl;
+    mostrarMeritos(meritos);
+    cout << endl;
     //// Train the ID3.
     //auto id3 = ID3Train<N>(std::move(samples)).train();
 
@@ -194,3 +204,4 @@ int main(int argc, char** argv)
 
     return 0;
 }
+
